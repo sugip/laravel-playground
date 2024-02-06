@@ -32,10 +32,11 @@ jobs:
           list-files: shell
           filters: |
             php:
-              - added|modified: '*.php'
+              - added|modified: '**/*.php'
       - name: Run phpcs
-        if: ${{ steps.filter.outputs.php == 'true' }}
-        run: composer cs-report ${{steps.changes.outputs.php}}
+        id: phpcs
+        if: ${{ steps.changes.outputs.php == 'true' }}
+        run: composer cs-report ${{steps.changes.outputs.php_files}}
       - name: Show PHPCS results in PR
-        if: ${{ steps.filter.outputs.php == 'true' && steps.phpcs.outcome == 'failure' }}
+        if: ${{ always() && steps.changes.outputs.php == 'true' && steps.phpcs.outcome == 'failure' }}
         run: cs2pr ./phpcs-report.xml

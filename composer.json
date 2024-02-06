@@ -49,8 +49,8 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ],
-        "cs": [
-            "phpcs --standard=./phpcs.xml"
+        "cs-report": [
+            "phpcs --standard=./phpcs.xml --report-full --report-checkstyle=./phpcs-report.xml"
         ]
     },
     "extra": {

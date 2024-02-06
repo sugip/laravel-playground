@@ -1,10 +1,7 @@
 name: Laravel
 
 on:
-  push:
-    branches: [ "main" ]
-#  pull_request:
-#    branches: [ "main" ]
+  pull_request:
 
 jobs:
   laravel-tests:
@@ -15,6 +12,7 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
+          tools: composer, cs2pr
       - uses: actions/checkout@v3
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
@@ -29,4 +27,4 @@ jobs:
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
       - name: Run pint
-        run: composer pint
+        run: composer pint-report | cs2pr
